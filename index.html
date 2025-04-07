@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações de Fulana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Informações de Contato</h1>
+        <p><strong>Nome:</strong> Fulana</p>
+        <p><strong>Contato:</strong> 983638753923847</p>
+        <p id="location">Carregando localização...</p>
+    </div>
+
+    <script>
+        function showLocation(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            document.getElementById('location').innerHTML = `Sua localização: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED: 
+                    document.getElementById('location').innerHTML = "Usuário negou a solicitação de Geolocalização.";
+                    break;
+                case error.POSITION_UNAVAILABLE: 
+                    document.getElementById('location').innerHTML = "Informação de localização indisponível.";
+                    break;
+                case error.TIMEOUT: 
+                    document.getElementById('location').innerHTML = "A solicitação para obter a localização do usuário expirou.";
+                    break;
+                case error.UNKNOWN_ERROR: 
+                    document.getElementById('location').innerHTML = "Ocorreu um erro desconhecido.";
+                    break;
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocation, showError);
+        } else {
+            document.getElementById('location').innerHTML = "Geolocalização não é suportada por este navegador.";
+        }
+    </script>
+</body>
+</html>
